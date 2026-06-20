@@ -256,8 +256,8 @@ export default function DemoExperience({
                   key={i}
                   className={
                     message.from === "bot"
-                      ? "max-w-[85%] self-start rounded-2xl rounded-bl-sm bg-zinc-100 px-4 py-2 text-sm text-zinc-800"
-                      : "max-w-[85%] self-end rounded-2xl rounded-br-sm bg-emerald-600 px-4 py-2 text-sm text-white"
+                      ? "max-w-[85%] self-start whitespace-pre-wrap rounded-2xl rounded-bl-sm bg-zinc-100 px-4 py-2 text-sm text-zinc-800"
+                      : "max-w-[85%] self-end whitespace-pre-wrap rounded-2xl rounded-br-sm bg-emerald-600 px-4 py-2 text-sm text-white"
                   }
                 >
                   {message.text}
