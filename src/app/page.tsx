@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const ventajas = [
   {
     title: "Agenda 24/7 por WhatsApp",
@@ -60,12 +62,20 @@ export default function Home() {
           <span className="text-lg font-semibold tracking-tight">
             Closer AI
           </span>
-          <a
-            href="#contacto"
-            className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
-          >
-            Hablar con ventas
-          </a>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/demo"
+              className="rounded-full border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
+            >
+              Probar el bot
+            </Link>
+            <a
+              href="#contacto"
+              className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
+            >
+              Hablar con ventas
+            </a>
+          </div>
         </div>
       </header>
 
@@ -84,12 +94,12 @@ export default function Home() {
             no contestar a tiempo.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href="#contacto"
+            <Link
+              href="/demo"
               className="w-full rounded-full bg-emerald-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-emerald-500 sm:w-auto"
             >
-              Quiero probarlo en mi negocio
-            </a>
+              Quiero probar este bot
+            </Link>
             <a
               href="#como-funciona"
               className="w-full rounded-full border border-zinc-200 px-6 py-3 text-base font-medium text-zinc-700 transition-colors hover:bg-zinc-50 sm:w-auto"
