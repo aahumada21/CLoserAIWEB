@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(timeout 20 npm run build)",
+      "Bash(git -C /c/Dev/CloserWEB remote -v)",
+      "Bash(git -C /c/Dev/CloserWEB log --oneline -5)",
+      "Bash(git -C /c/Dev/CloserWEB status*)",
+      "Bash(git -C /c/Dev/CloserWEB log*)"
+    ]
+  }
+}
