@@ -171,7 +171,7 @@ export default function Home() {
               respondiendo a tus clientes.
             </p>
             <a
-              href="https://wa.me/56900000000"
+              href="https://wa.me/56930977617"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-block rounded-full bg-emerald-500 px-6 py-3 text-base font-medium text-zinc-900 transition-colors hover:bg-emerald-400"

@@ -279,7 +279,7 @@ export default function DemoExperience({
               </div>
             ) : (
               <a
-                href="https://wa.me/56900000000"
+                href="https://wa.me/56930977617"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 inline-block rounded-full bg-emerald-600 px-6 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-emerald-500"
