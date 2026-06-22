@@ -71,7 +71,7 @@ export default function OnboardingForm() {
       return;
     }
 
-    router.push("/panel");
+    router.push(`/panel/agents/${result.agentId}`);
     router.refresh();
   }
 

@@ -1,8 +1,20 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import BusinessConfigForm, { type BusinessConfig } from "./BusinessConfigForm";
-import LogoutButton from "./LogoutButton";
+import PanelShell from "./PanelShell";
+
+type HealthAlert = {
+  id: string;
+  agent_id?: string;
+  severity?: string;
+  message?: string;
+  title?: string;
+  description?: string;
+  alert_type?: string;
+  is_resolved?: boolean;
+  resolved_at?: string | null;
+  created_at?: string;
+};
 
 export default async function PanelPage() {
   const supabase = await createClient();
@@ -29,19 +41,31 @@ export default async function PanelPage() {
     );
   }
 
-  const { data: agent, error: agentError } = await supabase
-    .from("agents")
-    .select("id, name")
-    .eq("organization_id", membership.organization_id)
-    .eq("is_active", true)
-    .limit(1)
-    .maybeSingle();
+  const orgName =
+    (membership.organizations as unknown as { name: string } | null)?.name ??
+    "tu negocio";
 
-  if (agentError || !agent) {
+  const { data: agents } = await supabase
+    .from("agents")
+    .select("id, name, is_active")
+    .eq("organization_id", membership.organization_id)
+    .order("created_at", { ascending: true });
+
+  const agentIds = (agents ?? []).map((a) => a.id);
+
+  const { data: alerts } = agentIds.length
+    ? await supabase.from("health_alerts").select("*").in("agent_id", agentIds)
+    : { data: [] as HealthAlert[] };
+
+  const openAlerts = (alerts ?? []).filter(
+    (a: HealthAlert) => !a.is_resolved && !a.resolved_at,
+  );
+
+  if (!agents || agents.length === 0) {
     return (
-      <PanelShell>
+      <PanelShell orgName={orgName}>
         <p className="text-sm text-zinc-600">
-          Todavía no tienes un agente configurado.
+          Todavía no tienes ningún agente configurado.
         </p>
         <Link
           href="/panel/onboarding"
@@ -53,74 +77,81 @@ export default async function PanelPage() {
     );
   }
 
-  const { data: businessConfig } = await supabase
-    .from("agent_business_config")
-    .select("config, version")
-    .eq("agent_id", agent.id)
-    .eq("is_active", true)
-    .maybeSingle();
-
-  const { data: staff } = await supabase
-    .from("agent_staff")
-    .select("id, name, schedule, services, is_active, display_order")
-    .eq("agent_id", agent.id)
-    .eq("is_active", true)
-    .order("display_order", { ascending: true });
-
-  const orgName =
-    (membership.organizations as unknown as { name: string } | null)?.name ??
-    "tu negocio";
-
   return (
-    <PanelShell orgName={orgName} agentName={agent.name}>
-      <BusinessConfigForm
-        agentId={agent.id}
-        organizationId={membership.organization_id}
-        initialConfig={(businessConfig?.config as BusinessConfig) ?? null}
-        currentVersion={businessConfig?.version ?? 0}
-        staff={staff ?? []}
-      />
-    </PanelShell>
-  );
-}
-
-function PanelShell({
-  orgName,
-  agentName,
-  children,
-}: {
-  orgName?: string;
-  agentName?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex min-h-screen flex-1 flex-col bg-zinc-50">
-      <header className="border-b border-zinc-200 bg-white">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
-          <div>
-            <p className="text-sm font-semibold text-zinc-900">
-              {orgName ?? "Panel"}
+    <PanelShell orgName={orgName}>
+      <div className="flex flex-col gap-10">
+        <section>
+          <h2 className="text-lg font-semibold tracking-tight">
+            Alertas de salud
+          </h2>
+          {openAlerts.length === 0 ? (
+            <p className="mt-3 text-sm text-zinc-500">
+              Sin alertas abiertas. Todo en orden.
             </p>
-            {agentName && (
-              <p className="text-xs text-zinc-500">Agente: {agentName}</p>
-            )}
+          ) : (
+            <ul className="mt-3 flex flex-col gap-2">
+              {openAlerts.map((alert: HealthAlert) => {
+                const isCritical = alert.severity === "critical";
+                const text =
+                  alert.message ||
+                  alert.title ||
+                  alert.description ||
+                  alert.alert_type ||
+                  "Alerta sin descripción";
+                return (
+                  <li
+                    key={alert.id}
+                    className={
+                      isCritical
+                        ? "rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+                        : "rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+                    }
+                  >
+                    {text}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+
+        <section>
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold tracking-tight">
+              Tus agentes
+            </h2>
+            <Link
+              href="/panel/onboarding"
+              className="text-sm font-medium text-emerald-700 hover:underline"
+            >
+              + Crear agente
+            </Link>
           </div>
-          <div className="flex items-center gap-4">
-            {agentName && (
-              <Link
-                href="/panel/onboarding"
-                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
-              >
-                Crear otro agente
-              </Link>
-            )}
-            <LogoutButton />
-          </div>
-        </div>
-      </header>
-      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">
-        {children}
-      </main>
-    </div>
+          <ul className="mt-3 flex flex-col gap-2">
+            {agents.map((agent) => (
+              <li key={agent.id}>
+                <Link
+                  href={`/panel/agents/${agent.id}`}
+                  className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white px-4 py-3 hover:border-emerald-300"
+                >
+                  <span className="text-sm font-medium text-zinc-900">
+                    {agent.name}
+                  </span>
+                  <span
+                    className={
+                      agent.is_active
+                        ? "rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700"
+                        : "rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-500"
+                    }
+                  >
+                    {agent.is_active ? "Activo" : "Inactivo"}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </PanelShell>
   );
 }
