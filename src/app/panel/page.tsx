@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import BusinessConfigForm, { type BusinessConfig } from "./BusinessConfigForm";
 import LogoutButton from "./LogoutButton";
@@ -39,9 +40,15 @@ export default async function PanelPage() {
   if (agentError || !agent) {
     return (
       <PanelShell>
-        <p className="text-sm text-red-600">
-          No encontramos un agente activo para tu organización.
+        <p className="text-sm text-zinc-600">
+          Todavía no tienes un agente configurado.
         </p>
+        <Link
+          href="/panel/onboarding"
+          className="mt-4 inline-block rounded-full bg-emerald-600 px-6 py-3 text-sm font-medium text-white hover:bg-emerald-500"
+        >
+          Crear mi primer agente
+        </Link>
       </PanelShell>
     );
   }
@@ -52,6 +59,13 @@ export default async function PanelPage() {
     .eq("agent_id", agent.id)
     .eq("is_active", true)
     .maybeSingle();
+
+  const { data: staff } = await supabase
+    .from("agent_staff")
+    .select("id, name, schedule, services, is_active, display_order")
+    .eq("agent_id", agent.id)
+    .eq("is_active", true)
+    .order("display_order", { ascending: true });
 
   const orgName =
     (membership.organizations as unknown as { name: string } | null)?.name ??
@@ -64,6 +78,7 @@ export default async function PanelPage() {
         organizationId={membership.organization_id}
         initialConfig={(businessConfig?.config as BusinessConfig) ?? null}
         currentVersion={businessConfig?.version ?? 0}
+        staff={staff ?? []}
       />
     </PanelShell>
   );
@@ -90,7 +105,17 @@ function PanelShell({
               <p className="text-xs text-zinc-500">Agente: {agentName}</p>
             )}
           </div>
-          <LogoutButton />
+          <div className="flex items-center gap-4">
+            {agentName && (
+              <Link
+                href="/panel/onboarding"
+                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+              >
+                Crear otro agente
+              </Link>
+            )}
+            <LogoutButton />
+          </div>
         </div>
       </header>
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">

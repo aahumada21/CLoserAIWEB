@@ -92,22 +92,34 @@ function withDefaults(config: BusinessConfig | null): BusinessConfig {
   };
 }
 
+type StaffMember = {
+  id: string;
+  name: string;
+  schedule: ScheduleBlock[] | null;
+  services: string[];
+  is_active: boolean;
+  display_order: number;
+};
+
 export default function BusinessConfigForm({
   agentId,
   organizationId,
   initialConfig,
   currentVersion,
+  staff,
 }: {
   agentId: string;
   organizationId: string;
   initialConfig: BusinessConfig | null;
   currentVersion: number;
+  staff: StaffMember[];
 }) {
   const [config, setConfig] = useState<BusinessConfig>(
     withDefaults(initialConfig),
   );
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<string>("");
+  const [calendarView, setCalendarView] = useState<string>("general");
 
   function updateField<K extends keyof BusinessConfig>(
     key: K,
@@ -291,7 +303,53 @@ export default function BusinessConfigForm({
         </h2>
 
         <div className="mt-4">
-          <WeeklyScheduleCalendar schedule={config.schedule ?? []} />
+          {staff.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setCalendarView("general")}
+                className={
+                  calendarView === "general"
+                    ? "rounded-full bg-zinc-900 px-3 py-1 text-xs font-medium text-white"
+                    : "rounded-full border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600"
+                }
+              >
+                Horario general
+              </button>
+              {staff.map((person) => (
+                <button
+                  key={person.id}
+                  type="button"
+                  onClick={() => setCalendarView(person.id)}
+                  className={
+                    calendarView === person.id
+                      ? "rounded-full bg-zinc-900 px-3 py-1 text-xs font-medium text-white"
+                      : "rounded-full border border-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600"
+                  }
+                >
+                  {person.name}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {calendarView !== "general" && (
+            <p className="mb-2 text-xs text-zinc-500">
+              {staff.find((p) => p.id === calendarView)?.schedule
+                ? "Horario propio de esta persona."
+                : "Esta persona no tiene horario propio configurado, hereda el horario general."}
+            </p>
+          )}
+
+          <WeeklyScheduleCalendar
+            schedule={
+              calendarView === "general"
+                ? config.schedule ?? []
+                : staff.find((p) => p.id === calendarView)?.schedule ??
+                  config.schedule ??
+                  []
+            }
+          />
         </div>
 
         <div className="mt-6 flex flex-col gap-4">
