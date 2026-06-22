@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { saveBusinessConfig } from "./actions";
+import WeeklyScheduleCalendar from "./WeeklyScheduleCalendar";
 
 type ScheduleBlock = {
   days: number[];
@@ -288,7 +289,12 @@ export default function BusinessConfigForm({
         <h2 className="text-lg font-semibold tracking-tight">
           Horarios de atención
         </h2>
-        <div className="mt-4 flex flex-col gap-4">
+
+        <div className="mt-4">
+          <WeeklyScheduleCalendar schedule={config.schedule ?? []} />
+        </div>
+
+        <div className="mt-6 flex flex-col gap-4">
           {(config.schedule ?? []).map((block, i) => (
             <div
               key={i}
