@@ -183,8 +183,18 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-zinc-100 py-8 text-center text-sm text-zinc-500">
-        © {new Date().getFullYear()} Closer AI. Todos los derechos
-        reservados.
+        <p>
+          © {new Date().getFullYear()} Closer AI. Todos los derechos
+          reservados.
+        </p>
+        <div className="mt-2 flex justify-center gap-4">
+          <Link href="/privacidad" className="hover:text-zinc-700 hover:underline">
+            Política de Privacidad
+          </Link>
+          <Link href="/terminos" className="hover:text-zinc-700 hover:underline">
+            Condiciones del Servicio
+          </Link>
+        </div>
       </footer>
     </div>
   );
