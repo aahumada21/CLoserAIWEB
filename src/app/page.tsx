@@ -64,6 +64,12 @@ export default function Home() {
           </span>
           <div className="flex items-center gap-3">
             <Link
+              href="/panel/login"
+              className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900"
+            >
+              Login
+            </Link>
+            <Link
               href="/demo"
               className="rounded-full border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
             >
