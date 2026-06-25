@@ -202,3 +202,23 @@ export async function setChannelActive(channelId: string, isActive: boolean) {
   if (error) return { error: error.message };
   return { ok: true };
 }
+
+export async function disconnectGoogleCalendar(agentId: string) {
+  const supabase = await createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    return { error: "No autenticado." };
+  }
+
+  const { error } = await supabase
+    .from("agents")
+    .update({
+      google_calendar_connected: false,
+      google_calendar_email: null,
+    })
+    .eq("id", agentId);
+
+  if (error) return { error: error.message };
+  return { ok: true };
+}

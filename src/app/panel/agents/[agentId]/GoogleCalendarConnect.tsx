@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { disconnectGoogleCalendar } from "./actions";
+
 function buildGoogleCalendarConnectUrl(
   agentId: string,
   organizationId: string,
@@ -37,6 +40,8 @@ export default function GoogleCalendarConnect({
   justConnected: boolean;
 }) {
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
+  const [disconnecting, setDisconnecting] = useState(false);
+  const [status, setStatus] = useState("");
 
   function handleConnect() {
     if (!clientId) return;
@@ -45,6 +50,27 @@ export default function GoogleCalendarConnect({
       organizationId,
       clientId,
     );
+  }
+
+  async function handleDisconnect() {
+    const confirmed = window.confirm(
+      "¿Desvincular este Google Calendar? El bot dejará de usarlo y volverá al calendario compartido.",
+    );
+    if (!confirmed) return;
+
+    setDisconnecting(true);
+    setStatus("");
+
+    const result = await disconnectGoogleCalendar(agentId);
+
+    setDisconnecting(false);
+
+    if (result.error) {
+      setStatus(`Error: ${result.error}`);
+      return;
+    }
+
+    window.location.reload();
   }
 
   if (!clientId) {
@@ -64,25 +90,32 @@ export default function GoogleCalendarConnect({
         </p>
       )}
 
+      {status && <p className="text-sm text-red-600">{status}</p>}
+
       {connected ? (
         <div className="flex items-center justify-between rounded-xl border border-zinc-200 px-4 py-3">
           <div>
             <p className="text-sm font-medium text-zinc-900">
               Conectado{email ? ` como ${email}` : ""}
             </p>
-            <p className="text-xs text-zinc-500">
-              El bot todavía no usa este calendario para agendar
-              automáticamente (en construcción); por ahora sigue usando el
-              calendario compartido.
-            </p>
           </div>
-          <button
-            type="button"
-            onClick={handleConnect}
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
-          >
-            Reconectar
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handleConnect}
+              className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+            >
+              Reconectar
+            </button>
+            <button
+              type="button"
+              onClick={handleDisconnect}
+              disabled={disconnecting}
+              className="text-sm font-medium text-red-600 hover:text-red-700 disabled:opacity-50"
+            >
+              {disconnecting ? "Desvinculando..." : "Desvincular"}
+            </button>
+          </div>
         </div>
       ) : (
         <button
