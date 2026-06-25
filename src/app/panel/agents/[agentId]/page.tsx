@@ -7,13 +7,17 @@ import BusinessConfigForm, {
 import PricingEditor from "./PricingEditor";
 import StaffManager from "./StaffManager";
 import ChannelsManager from "./ChannelsManager";
+import GoogleCalendarConnect from "./GoogleCalendarConnect";
 
 export default async function AgentPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ agentId: string }>;
+  searchParams: Promise<{ calendar_connected?: string }>;
 }) {
   const { agentId } = await params;
+  const { calendar_connected } = await searchParams;
   const supabase = await createClient();
 
   const { data: userData } = await supabase.auth.getUser();
@@ -33,7 +37,7 @@ export default async function AgentPage({
 
   const { data: agent } = await supabase
     .from("agents")
-    .select("id, name")
+    .select("id, name, google_calendar_connected, google_calendar_email")
     .eq("id", agentId)
     .eq("organization_id", membership.organization_id)
     .maybeSingle();
@@ -114,6 +118,21 @@ export default async function AgentPage({
           </h2>
           <div className="mt-4">
             <StaffManager agentId={agent.id} staff={staff ?? []} />
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold tracking-tight">
+            Google Calendar
+          </h2>
+          <div className="mt-4">
+            <GoogleCalendarConnect
+              agentId={agent.id}
+              organizationId={membership.organization_id}
+              connected={agent.google_calendar_connected ?? false}
+              email={agent.google_calendar_email ?? null}
+              justConnected={calendar_connected === "1"}
+            />
           </div>
         </section>
 
