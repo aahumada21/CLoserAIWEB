@@ -203,7 +203,10 @@ export async function setChannelActive(channelId: string, isActive: boolean) {
   return { ok: true };
 }
 
-export async function disconnectGoogleCalendar(agentId: string) {
+export async function disconnectGoogleCalendar(
+  agentId: string,
+  organizationId: string,
+) {
   const supabase = await createClient();
 
   const { data: userData } = await supabase.auth.getUser();
@@ -211,14 +214,48 @@ export async function disconnectGoogleCalendar(agentId: string) {
     return { error: "No autenticado." };
   }
 
-  const { error } = await supabase
-    .from("agents")
-    .update({
-      google_calendar_connected: false,
-      google_calendar_email: null,
-    })
-    .eq("id", agentId);
+  const { data: membership } = await supabase
+    .from("organization_members")
+    .select("organization_id")
+    .eq("organization_id", organizationId)
+    .maybeSingle();
 
-  if (error) return { error: error.message };
+  if (!membership) {
+    return { error: "No tienes permiso sobre esta organización." };
+  }
+
+  const token = process.env.DISCONNECT_GOOGLE_CALENDAR_TOKEN;
+  const url = process.env.N8N_DISCONNECT_GOOGLE_CALENDAR_URL;
+
+  if (!token || !url) {
+    return { error: "La desvinculación no está configurada todavía." };
+  }
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Disconnect-Token": token,
+    },
+    body: JSON.stringify({ agent_id: agentId, organization_id: organizationId }),
+  });
+
+  if (!response.ok) {
+    return { error: "No se pudo conectar con el servidor." };
+  }
+
+  const data = await response.json();
+
+  if (!data.ok) {
+    const messages: Record<string, string> = {
+      agent_not_found: "No se encontró el agente.",
+      no_connection: "Este agente no tiene ningún calendario conectado.",
+      invalid_disconnect_token: "Error de configuración interna.",
+      revoke_failed:
+        "Google no pudo revocar el acceso. Intenta de nuevo más tarde.",
+    };
+    return { error: data.message || messages[data.error] || "Ocurrió un error." };
+  }
+
   return { ok: true };
 }

@@ -61,7 +61,7 @@ export default function GoogleCalendarConnect({
     setDisconnecting(true);
     setStatus("");
 
-    const result = await disconnectGoogleCalendar(agentId);
+    const result = await disconnectGoogleCalendar(agentId, organizationId);
 
     setDisconnecting(false);
 
