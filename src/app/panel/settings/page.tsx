@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import PanelShell from "../PanelShell";
 import OrgAlertsForm from "./OrgAlertsForm";
+import MfaSettings from "./MfaSettings";
 
 export default async function SettingsPage() {
   const supabase = await createClient();
@@ -42,6 +43,13 @@ export default async function SettingsPage() {
           alertWhatsappNumber={org?.alert_whatsapp_number ?? null}
           alertEmail={org?.alert_email ?? null}
         />
+      </div>
+
+      <h2 className="mt-12 text-lg font-semibold tracking-tight">
+        Seguridad de tu cuenta
+      </h2>
+      <div className="mt-6 max-w-md">
+        <MfaSettings />
       </div>
     </PanelShell>
   );

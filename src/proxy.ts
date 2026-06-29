@@ -25,18 +25,24 @@ export async function proxy(request: NextRequest) {
     },
   );
 
-  const { data } = await supabase.auth.getUser();
+  const { data: userData } = await supabase.auth.getUser();
+
+  let mfaPending = false;
+  if (userData.user) {
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    mfaPending = aal?.currentLevel === "aal1" && aal?.nextLevel === "aal2";
+  }
 
   const isPanelRoute = request.nextUrl.pathname.startsWith("/panel");
   const isLoginRoute = request.nextUrl.pathname === "/panel/login";
 
-  if (isPanelRoute && !isLoginRoute && !data.user) {
+  if (isPanelRoute && !isLoginRoute && (!userData.user || mfaPending)) {
     const url = request.nextUrl.clone();
     url.pathname = "/panel/login";
     return NextResponse.redirect(url);
   }
 
-  if (isLoginRoute && data.user) {
+  if (isLoginRoute && userData.user && !mfaPending) {
     const url = request.nextUrl.clone();
     url.pathname = "/panel";
     return NextResponse.redirect(url);
