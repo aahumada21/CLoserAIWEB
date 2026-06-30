@@ -10,58 +10,56 @@ export const metadata: Metadata = {
 const planes = [
   {
     nombre: "Base",
-    precio: "$30.000",
+    precio: "$39.000",
     descripcion:
-      "Todo lo que un negocio necesita para empezar a agendar citas por WhatsApp sin tocar el teléfono.",
+      "Para empezar a agendar citas por WhatsApp sin tocar el teléfono.",
     tag: null,
+    destacado: false,
     incluye: [
-      "1 número de WhatsApp Business",
-      "Chatbot de IA para agendar citas 24/7",
-      "Conexión con Google Calendar",
-      "Captura automática de leads (nombre, teléfono, correo)",
-      "Recordatorios automáticos de cita",
-      "Derivación a humano cuando el bot no puede resolver",
-      "Panel de administración web",
-      "Soporte por WhatsApp",
+      { texto: "1 número de WhatsApp Business", pronto: false },
+      { texto: "Chatbot de IA para agendar citas 24/7", pronto: false },
+      { texto: "Conexión con Google Calendar", pronto: false },
+      { texto: "Captura automática de leads", pronto: false },
+      { texto: "Recordatorios automáticos de cita", pronto: false },
+      { texto: "Derivación a humano", pronto: false },
+      { texto: "Panel de administración web", pronto: false },
+      { texto: "Soporte por WhatsApp", pronto: false },
+    ],
+    cta: "Contratar",
+  },
+  {
+    nombre: "Plus",
+    precio: "$79.000",
+    descripcion:
+      "Para negocios con más de un operador o que necesitan cotizar y manejar múltiples líneas.",
+    tag: null,
+    destacado: false,
+    incluye: [
+      { texto: "Todo lo del plan Base", pronto: false },
+      { texto: "Cotización automática de servicios y precios", pronto: false },
+      { texto: "Hasta 3 números / líneas de atención", pronto: false },
+      { texto: "Múltiples operadores con su propio Google Calendar", pronto: false },
+      { texto: "Chat en tu sitio web (webchat)", pronto: false },
+      { texto: "Historial completo de conversaciones", pronto: false },
+      { texto: "Soporte prioritario", pronto: false },
     ],
     cta: "Contratar",
   },
   {
     nombre: "Pro",
-    precio: "$60.000",
+    precio: "$100.000",
     descripcion:
-      "Para negocios con más de un operador, más de una línea o que quieren cotizar servicios automáticamente.",
-    tag: "Más popular",
+      "La solución completa: el bot agenda por WhatsApp y web, y el cliente puede pagar en el mismo momento.",
+    tag: "Recomendado",
     destacado: true,
     incluye: [
-      "Todo lo del plan Base",
-      "Cotización automática de servicios y precios",
-      "Hasta 3 números / líneas de atención independientes",
-      "Múltiples operadores con su propio Google Calendar",
-      "Chat en tu sitio web (webchat)",
-      "Historial completo de conversaciones y reservas",
-      "Configuración de horarios por persona",
-      "Soporte prioritario",
+      { texto: "Todo lo del plan Plus", pronto: false },
+      { texto: "Link de agendamiento web (reserva desde tu sitio o redes)", pronto: false },
+      { texto: "Pagos online al momento de reservar", pronto: true },
+      { texto: "Agentes / líneas ilimitados", pronto: false },
+      { texto: "Soporte 24/7", pronto: false },
     ],
     cta: "Contratar",
-  },
-  {
-    nombre: "Empresa",
-    precio: "A convenir",
-    descripcion:
-      "Para cadenas, franquicias o negocios con múltiples sucursales o necesidades específicas.",
-    tag: null,
-    incluye: [
-      "Todo lo del plan Pro",
-      "Sucursales / agentes ilimitados",
-      "Configuración de cobertura geográfica por sucursal",
-      "Integración con sistemas propios (CRM, ERP)",
-      "Flujos de conversación a medida",
-      "Onboarding dedicado con tu equipo",
-      "SLA de respuesta garantizado",
-      "Soporte 24/7",
-    ],
-    cta: "Contactar",
   },
 ];
 
@@ -97,9 +95,8 @@ export default function PreciosPage() {
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-zinc-600">
             Todos los planes incluyen la configuración inicial del chatbot con
-            tus servicios, precios y horarios reales, para que desde el primer
-            día responda como alguien de tu equipo. El precio final se ajusta
-            según el volumen de conversaciones de tu negocio.
+            tus servicios, precios y horarios reales. Desde el primer día
+            responde como alguien de tu equipo.
           </p>
         </div>
 
@@ -109,12 +106,12 @@ export default function PreciosPage() {
               key={plan.nombre}
               className={
                 plan.destacado
-                  ? "flex flex-col rounded-2xl border-2 border-emerald-600 bg-white p-6 shadow-sm"
+                  ? "relative flex flex-col rounded-2xl border-2 border-emerald-600 bg-white p-6 shadow-md"
                   : "flex flex-col rounded-2xl border border-zinc-200 bg-white p-6"
               }
             >
               {plan.tag && (
-                <p className="mb-3 w-fit rounded-full bg-emerald-600 px-3 py-0.5 text-xs font-medium text-white">
+                <p className="mb-3 w-fit rounded-full bg-emerald-600 px-3 py-0.5 text-xs font-semibold text-white">
                   {plan.tag}
                 </p>
               )}
@@ -122,22 +119,29 @@ export default function PreciosPage() {
               <p className="mt-1 text-sm text-zinc-500">{plan.descripcion}</p>
 
               <div className="mt-4">
-                <span className="text-2xl font-semibold text-zinc-900">
+                <span className="text-3xl font-bold text-zinc-900">
                   {plan.precio}
                 </span>
-                {plan.precio !== "A convenir" && (
-                  <span className="ml-1 text-sm text-zinc-400">/mes</span>
-                )}
+                <span className="ml-1 text-sm text-zinc-400">/mes</span>
               </div>
 
-              <ul className="mt-4 flex flex-1 flex-col gap-2">
+              <ul className="mt-5 flex flex-1 flex-col gap-2.5">
                 {plan.incluye.map((item) => (
                   <li
-                    key={item}
-                    className="flex items-start gap-2 text-sm text-zinc-700"
+                    key={item.texto}
+                    className="flex items-start gap-2 text-sm"
                   >
-                    <span className="mt-0.5 text-emerald-600">✓</span>
-                    {item}
+                    <span className={item.pronto ? "mt-0.5 text-zinc-300" : "mt-0.5 text-emerald-600"}>
+                      ✓
+                    </span>
+                    <span className={item.pronto ? "text-zinc-400" : "text-zinc-700"}>
+                      {item.texto}
+                      {item.pronto && (
+                        <span className="ml-1.5 rounded-full bg-zinc-100 px-1.5 py-0.5 text-xs font-medium text-zinc-400">
+                          próximamente
+                        </span>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -146,8 +150,8 @@ export default function PreciosPage() {
                 href="/contacto"
                 className={
                   plan.destacado
-                    ? "mt-6 rounded-full bg-emerald-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-emerald-500"
-                    : "mt-6 rounded-full border border-zinc-200 px-4 py-2.5 text-center text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+                    ? "mt-6 rounded-full bg-emerald-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-emerald-500"
+                    : "mt-6 rounded-full border border-zinc-200 px-4 py-3 text-center text-sm font-medium text-zinc-700 hover:bg-zinc-50"
                 }
               >
                 {plan.cta}
@@ -156,19 +160,37 @@ export default function PreciosPage() {
           ))}
         </div>
 
-        <div className="mt-12 rounded-2xl border border-zinc-100 bg-zinc-50 p-8 text-center">
-          <h2 className="text-xl font-semibold">¿No sabes qué plan necesitas?</h2>
-          <p className="mt-2 text-sm text-zinc-600">
-            Cuéntanos de tu negocio y te recomendamos el plan correcto. No hay
-            ningún compromiso.
-          </p>
-          <Link
-            href="/contacto"
-            className="mt-4 inline-block rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white hover:bg-zinc-700"
-          >
-            Hablar con ventas
-          </Link>
+        {/* Empresa separado */}
+        <div className="mt-10 rounded-2xl border border-zinc-200 bg-zinc-50 p-8">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
+                Empresa
+              </p>
+              <h2 className="mt-1 text-xl font-semibold">
+                Solución a medida para tu cadena o franquicia
+              </h2>
+              <p className="mt-1 text-sm text-zinc-600">
+                Múltiples sucursales, integraciones con tus sistemas, flujos
+                personalizados y soporte dedicado. Precio según el proyecto.
+              </p>
+            </div>
+            <Link
+              href="/contacto"
+              className="w-fit shrink-0 rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white hover:bg-zinc-700"
+            >
+              Hablar con ventas
+            </Link>
+          </div>
         </div>
+
+        <p className="mt-8 text-center text-sm text-zinc-400">
+          ¿Tienes dudas sobre qué plan elegir?{" "}
+          <Link href="/contacto" className="text-emerald-700 hover:underline">
+            Escríbenos
+          </Link>{" "}
+          y te recomendamos el correcto sin compromiso.
+        </p>
       </main>
 
       <footer className="border-t border-zinc-100 py-8 text-center text-sm text-zinc-500">
