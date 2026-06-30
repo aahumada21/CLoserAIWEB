@@ -54,15 +54,52 @@ const pasos = [
   },
 ];
 
+const faq = [
+  {
+    q: "¿Necesito tener un número de WhatsApp Business ya?",
+    a: "Sí, necesitas una cuenta de WhatsApp Business activa. Si todavía no la tienes, te ayudamos a crearla antes de conectar el chatbot.",
+  },
+  {
+    q: "¿El bot puede adaptarse a cualquier tipo de negocio?",
+    a: "Actualmente Closer AI está optimizado para negocios de servicios que trabajan con citas y agendamiento: detailing de autos, peluquerías, centros de estética, clínicas, talleres y rubros similares. Si tu negocio vende citas, Closer AI puede ayudarte.",
+  },
+  {
+    q: "¿Cuánto tiempo tarda la configuración inicial?",
+    a: "Entre 1 y 3 días hábiles desde que nos pasas la información de tu negocio (servicios, precios, horarios, comunas que cubres y acceso a tu Google Calendar). No hay nada que instalar ni que aprender.",
+  },
+  {
+    q: "¿Qué pasa si el cliente hace una pregunta que el bot no sabe responder?",
+    a: "El bot reconoce cuándo no tiene información suficiente y transfiere la conversación a un integrante de tu equipo, sin que el cliente pierda el hilo de lo que había hablado.",
+  },
+  {
+    q: "¿Puedo revisar las conversaciones que tiene el bot con mis clientes?",
+    a: "Sí. Desde el panel de administración puedes ver el historial de todas las conversaciones, cotizaciones y reservas.",
+  },
+  {
+    q: "¿El bot funciona solo en WhatsApp?",
+    a: "WhatsApp es el canal principal. También puedes integrarlo en tu sitio web como chat en vivo. Otros canales (Instagram, Facebook Messenger) están en el roadmap.",
+  },
+  {
+    q: "¿Qué necesito para empezar?",
+    a: "Un número de WhatsApp Business, tu Google Calendar de trabajo y 30 minutos para contarnos cómo opera tu negocio. El resto lo hacemos nosotros.",
+  },
+];
+
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col bg-white text-zinc-900">
       <header className="sticky top-0 z-10 border-b border-zinc-100 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <span className="text-lg font-semibold tracking-tight">
+          <Link href="/" className="text-lg font-semibold tracking-tight">
             Closer AI
-          </span>
-          <div className="flex items-center gap-3">
+          </Link>
+          <nav className="flex items-center gap-3">
+            <Link
+              href="/precios"
+              className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900"
+            >
+              Precios
+            </Link>
             <Link
               href="/panel/login"
               className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900"
@@ -75,13 +112,13 @@ export default function Home() {
             >
               Probar el bot
             </Link>
-            <a
-              href="#contacto"
+            <Link
+              href="/contacto"
               className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700"
             >
               Hablar con ventas
-            </a>
-          </div>
+            </Link>
+          </nav>
         </div>
       </header>
 
@@ -104,7 +141,7 @@ export default function Home() {
               href="/demo"
               className="w-full rounded-full bg-emerald-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-emerald-500 sm:w-auto"
             >
-              Quiero probar este bot
+              Probar el bot gratis
             </Link>
             <a
               href="#como-funciona"
@@ -163,27 +200,62 @@ export default function Home() {
           </div>
         </section>
 
+        {/* FAQ */}
+        <section className="border-t border-zinc-100 bg-zinc-50 py-20">
+          <div className="mx-auto max-w-3xl px-6">
+            <h2 className="text-center text-3xl font-semibold tracking-tight">
+              Preguntas frecuentes
+            </h2>
+            <div className="mt-10 flex flex-col gap-6">
+              {faq.map((item) => (
+                <div
+                  key={item.q}
+                  className="rounded-2xl border border-zinc-100 bg-white p-6"
+                >
+                  <h3 className="text-base font-semibold">{item.q}</h3>
+                  <p className="mt-2 text-sm leading-6 text-zinc-600">
+                    {item.a}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-8 text-center text-sm text-zinc-500">
+              ¿Tienes otra pregunta?{" "}
+              <Link
+                href="/contacto"
+                className="font-medium text-emerald-700 hover:underline"
+              >
+                Escríbenos
+              </Link>
+              .
+            </p>
+          </div>
+        </section>
+
         {/* CTA final */}
-        <section
-          id="contacto"
-          className="border-t border-zinc-100 bg-zinc-900 py-20 text-white"
-        >
+        <section className="border-t border-zinc-100 bg-zinc-900 py-20 text-white">
           <div className="mx-auto max-w-3xl px-6 text-center">
             <h2 className="text-3xl font-semibold tracking-tight">
               Deja que tu WhatsApp trabaje solo
             </h2>
             <p className="mt-4 text-zinc-300">
-              Cuéntanos de tu pyme y te mostramos cómo se vería Closer AI
-              respondiendo a tus clientes.
+              Cuéntanos de tu pyme y en menos de 72 horas tienes el chatbot
+              funcionando con tus servicios y precios reales.
             </p>
-            <a
-              href="https://wa.me/56930977617"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-block rounded-full bg-emerald-500 px-6 py-3 text-base font-medium text-zinc-900 transition-colors hover:bg-emerald-400"
-            >
-              Escribir por WhatsApp
-            </a>
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/contacto"
+                className="rounded-full bg-emerald-500 px-6 py-3 text-base font-medium text-zinc-900 transition-colors hover:bg-emerald-400"
+              >
+                Hablar con ventas
+              </Link>
+              <Link
+                href="/precios"
+                className="rounded-full border border-zinc-600 px-6 py-3 text-base font-medium text-zinc-300 transition-colors hover:border-zinc-400 hover:text-white"
+              >
+                Ver planes y precios
+              </Link>
+            </div>
           </div>
         </section>
       </main>
@@ -193,7 +265,13 @@ export default function Home() {
           © {new Date().getFullYear()} Closer AI. Todos los derechos
           reservados.
         </p>
-        <div className="mt-2 flex justify-center gap-4">
+        <div className="mt-2 flex flex-wrap justify-center gap-4">
+          <Link href="/precios" className="hover:text-zinc-700 hover:underline">
+            Precios
+          </Link>
+          <Link href="/contacto" className="hover:text-zinc-700 hover:underline">
+            Contacto
+          </Link>
           <Link href="/privacidad" className="hover:text-zinc-700 hover:underline">
             Política de Privacidad
           </Link>
