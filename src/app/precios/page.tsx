@@ -36,7 +36,7 @@ const planes = [
     destacado: false,
     incluye: [
       { texto: "Todo lo del plan Base", pronto: false },
-      { texto: "Varios trabajadores registrados — cada uno con sus servicios, horarios y precios propios", pronto: false },
+      { texto: "Hasta 6 trabajadores — cada uno con sus servicios, horarios y precios propios", pronto: false },
       { texto: "El bot le asigna la cita al trabajador correcto según quién tiene hora libre", pronto: false },
       { texto: "El cliente puede elegir con quién quiere atenderse", pronto: false },
       { texto: "1 número de WhatsApp Business", pronto: false },
