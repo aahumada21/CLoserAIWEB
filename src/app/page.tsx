@@ -2,34 +2,34 @@ import Link from "next/link";
 
 const ventajas = [
   {
-    title: "Agenda 24/7 por WhatsApp",
+    title: "Agenda citas 24/7 por WhatsApp",
     description:
-      "El chatbot responde y agenda citas en cualquier horario, incluso fuera de tu jornada laboral. Ningún lead se queda esperando.",
+      "El chatbot recibe el mensaje del cliente, entiende qué servicio quiere y agenda la hora disponible directo en tu Google Calendar — sin que tú hagas nada.",
   },
   {
-    title: "Cotiza automáticamente",
+    title: "Captura los datos del lead",
     description:
-      "Reconoce el servicio que pide el cliente y entrega una cotización al instante, sin que tengas que escribir nada.",
+      "Cada cliente que escribe queda registrado con su nombre, teléfono y correo, aunque no confirme una cita. No vuelves a perder un contacto.",
   },
   {
-    title: "Reduce las inasistencias",
+    title: "Recordatorios automáticos",
     description:
-      "Envía recordatorios automáticos antes de cada cita para que tus clientes no olviden su hora.",
+      "El bot avisa al cliente un día antes de su hora para reducir las inasistencias. Sin que tengas que acordarte de enviar nada.",
+  },
+  {
+    title: "Conectado a tu Google Calendar",
+    description:
+      "Consulta la disponibilidad real de tu calendario antes de ofrecer horarios y crea el evento automáticamente cuando el cliente confirma.",
   },
   {
     title: "Deriva a un humano cuando hace falta",
     description:
-      "Si la conversación se complica o el cliente lo pide, el chatbot transfiere la conversación a tu equipo sin perder el contexto.",
+      "Si la conversación se complica o el cliente lo pide, el chatbot transfiere la conversación a tu equipo sin perder el hilo.",
   },
   {
-    title: "Aprende tu negocio",
+    title: "Historial de todas las reservas",
     description:
-      "Se configura con tus servicios, precios, cobertura y horarios reales, así que responde como alguien que conoce tu pyme.",
-  },
-  {
-    title: "Trazabilidad total",
-    description:
-      "Cada conversación, cotización y reserva queda registrada para que puedas revisar el historial cuando lo necesites.",
+      "Desde el panel puedes ver el historial de conversaciones, citas agendadas y leads capturados, todo en un solo lugar.",
   },
 ];
 

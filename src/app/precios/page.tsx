@@ -9,15 +9,18 @@ export const metadata: Metadata = {
 
 const planes = [
   {
-    nombre: "Starter",
-    descripcion: "Para negocios que están empezando a automatizar su atención.",
+    nombre: "Base",
+    descripcion:
+      "Todo lo que un negocio necesita para empezar a agendar citas por WhatsApp sin tocar el teléfono.",
+    tag: null,
     incluye: [
       "1 número de WhatsApp Business",
-      "Agendamiento y cotización automática",
-      "1 Google Calendar conectado",
-      "Recordatorios de cita automáticos",
-      "Derivación a humano",
-      "Panel de administración",
+      "Chatbot de IA para agendar citas 24/7",
+      "Conexión con Google Calendar",
+      "Captura automática de leads (nombre, teléfono, correo)",
+      "Recordatorios automáticos de cita",
+      "Derivación a humano cuando el bot no puede resolver",
+      "Panel de administración web",
       "Soporte por WhatsApp",
     ],
     cta: "Contratar",
@@ -25,14 +28,16 @@ const planes = [
   {
     nombre: "Pro",
     descripcion:
-      "Para negocios con más de un operador o que necesitan más de un canal.",
+      "Para negocios con más de un operador, más de una línea o que quieren cotizar servicios automáticamente.",
+    tag: "Más popular",
     destacado: true,
     incluye: [
-      "Todo lo de Starter",
-      "Hasta 3 números / líneas de atención",
-      "Múltiples calendarios (staff con agenda propia)",
+      "Todo lo del plan Base",
+      "Cotización automática de servicios y precios",
+      "Hasta 3 números / líneas de atención independientes",
+      "Múltiples operadores con su propio Google Calendar",
       "Chat en tu sitio web (webchat)",
-      "Historial de conversaciones completo",
+      "Historial completo de conversaciones y reservas",
       "Configuración de horarios por persona",
       "Soporte prioritario",
     ],
@@ -41,14 +46,16 @@ const planes = [
   {
     nombre: "Empresa",
     descripcion:
-      "Para cadenas, franquicias o negocios que necesitan una solución a medida.",
+      "Para cadenas, franquicias o negocios con múltiples sucursales o necesidades específicas.",
+    tag: null,
     incluye: [
-      "Todo lo de Pro",
-      "Agentes ilimitados",
+      "Todo lo del plan Pro",
+      "Sucursales / agentes ilimitados",
+      "Configuración de cobertura geográfica por sucursal",
       "Integración con sistemas propios (CRM, ERP)",
-      "Flujos de conversación personalizados",
+      "Flujos de conversación a medida",
+      "Onboarding dedicado con tu equipo",
       "SLA de respuesta garantizado",
-      "Onboarding dedicado",
       "Soporte 24/7",
     ],
     cta: "Contactar",
@@ -86,9 +93,10 @@ export default function PreciosPage() {
             Planes y precios
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-zinc-600">
-            El precio final depende de tu negocio, el volumen de conversaciones
-            y los canales que necesites. Todos los planes incluyen configuración
-            inicial y soporte.
+            Todos los planes incluyen la configuración inicial del chatbot con
+            tus servicios, precios y horarios reales, para que desde el primer
+            día responda como alguien de tu equipo. El precio final se ajusta
+            según el volumen de conversaciones de tu negocio.
           </p>
         </div>
 
@@ -102,9 +110,9 @@ export default function PreciosPage() {
                   : "flex flex-col rounded-2xl border border-zinc-200 bg-white p-6"
               }
             >
-              {plan.destacado && (
+              {plan.tag && (
                 <p className="mb-3 w-fit rounded-full bg-emerald-600 px-3 py-0.5 text-xs font-medium text-white">
-                  Más popular
+                  {plan.tag}
                 </p>
               )}
               <h2 className="text-xl font-semibold">{plan.nombre}</h2>
