@@ -2,86 +2,86 @@ import Link from "next/link";
 
 const ventajas = [
   {
-    title: "Agenda citas 24/7 por WhatsApp",
+    title: "Tu WhatsApp responde solo, aunque estés trabajando",
     description:
-      "El chatbot recibe el mensaje del cliente, entiende qué servicio quiere y agenda la hora disponible directo en tu Google Calendar — sin que tú hagas nada.",
+      "Cuando estás con un cliente y te llegan mensajes, el bot los responde por ti. Agenda la hora, informa los precios y confirma la cita — sin que tú toques el teléfono.",
   },
   {
-    title: "Captura los datos del lead",
+    title: "Nunca más pierdas un cliente por no responder a tiempo",
     description:
-      "Cada cliente que escribe queda registrado con su nombre, teléfono y correo, aunque no confirme una cita. No vuelves a perder un contacto.",
+      "Si alguien te escribe a las 11pm o un domingo, el bot responde igual. No importa si estás ocupado, durmiendo o en vacaciones.",
   },
   {
-    title: "Recordatorios automáticos",
+    title: "Menos clientes que no aparecen",
     description:
-      "El bot avisa al cliente un día antes de su hora para reducir las inasistencias. Sin que tengas que acordarte de enviar nada.",
+      "El bot le manda un recordatorio automático al cliente el día antes de su hora. Si no puede ir, cancela o cambia la hora solo, sin que tengas que llamar a nadie.",
   },
   {
-    title: "Conectado a tu Google Calendar",
+    title: "Sin doble agenda ni errores de hora",
     description:
-      "Consulta la disponibilidad real de tu calendario antes de ofrecer horarios y crea el evento automáticamente cuando el cliente confirma.",
+      "El bot revisa tu calendario antes de ofrecer horarios, así que solo ofrece las horas que realmente tienes libres. Imposible reservar dos clientes al mismo tiempo.",
   },
   {
-    title: "Deriva a un humano cuando hace falta",
+    title: "Todos tus clientes guardados automáticamente",
     description:
-      "Si la conversación se complica o el cliente lo pide, el chatbot transfiere la conversación a tu equipo sin perder el hilo.",
+      "Cada persona que te escribe queda registrada con su nombre y contacto, aunque no confirme una cita. Así puedes retomar la conversación cuando quieras.",
   },
   {
-    title: "Historial de todas las reservas",
+    title: "Cuando el bot no puede, te pasa la conversación",
     description:
-      "Desde el panel puedes ver el historial de conversaciones, citas agendadas y leads capturados, todo en un solo lugar.",
+      "Si el cliente pregunta algo fuera de lo común o quiere hablar con una persona, el bot te transfiere el chat al tiro, con todo el contexto de la conversación.",
   },
 ];
 
 const pasos = [
   {
     numero: "1",
-    title: "Conectamos tu WhatsApp",
+    title: "Nos cuentas cómo funciona tu negocio",
     description:
-      "Vinculamos el chatbot a tu número de WhatsApp Business, sin que tengas que cambiar tu forma de trabajar.",
+      "Tus servicios, tus precios, tus horarios de atención. Nosotros configuramos todo — tú no tienes que instalar nada ni aprender a usar ningún sistema nuevo.",
   },
   {
     numero: "2",
-    title: "Configuramos tu negocio",
+    title: "Conectamos tu WhatsApp y tu calendario",
     description:
-      "Cargamos tus servicios, precios, horarios y zonas de cobertura para que el chatbot responda con la info real de tu pyme.",
+      "El chatbot queda vinculado a tu número de WhatsApp y a tu Google Calendar. En menos de 72 horas ya está respondiendo a tus clientes.",
   },
   {
     numero: "3",
-    title: "Empieza a agendar solo",
+    title: "Tu negocio empieza a agendar solo",
     description:
-      "Desde ese momento, el chatbot atiende, cotiza y agenda citas automáticamente, y tú recibes el resumen de cada conversación.",
+      "Desde ese momento, el bot atiende, agenda y recuerda las citas por ti. Tú solo ves llegar las reservas confirmadas y te dedicas a lo que sabes hacer.",
   },
 ];
 
 const faq = [
   {
-    q: "¿Necesito tener un número de WhatsApp Business ya?",
-    a: "Sí, necesitas una cuenta de WhatsApp Business activa. Si todavía no la tienes, te ayudamos a crearla antes de conectar el chatbot.",
+    q: "¿Para qué tipo de negocio sirve?",
+    a: "Para cualquier negocio que trabaje con horas y citas: barberías, salones de belleza, clínicas, talleres mecánicos, detailing de autos, centros de estética, y rubros similares. Si tus clientes te escriben por WhatsApp para pedir hora, esto es para ti.",
   },
   {
-    q: "¿El bot puede adaptarse a cualquier tipo de negocio?",
-    a: "Actualmente Closer AI está optimizado para negocios de servicios que trabajan con citas y agendamiento: detailing de autos, peluquerías, centros de estética, clínicas, talleres y rubros similares. Si tu negocio vende citas, Closer AI puede ayudarte.",
+    q: "¿Necesito saber de tecnología para usarlo?",
+    a: "Para nada. Nosotros configuramos todo. Tú solo nos cuentas cómo funciona tu negocio — servicios, precios y horarios — y nosotros dejamos el bot listo. No hay nada que instalar ni que aprender.",
   },
   {
-    q: "¿Cuánto tiempo tarda la configuración inicial?",
-    a: "Entre 1 y 3 días hábiles desde que nos pasas la información de tu negocio (servicios, precios, horarios, comunas que cubres y acceso a tu Google Calendar). No hay nada que instalar ni que aprender.",
+    q: "¿Cuánto tiempo tarda en estar funcionando?",
+    a: "Entre 1 y 3 días hábiles. Desde que nos mandas la información de tu negocio, en menos de 72 horas el bot ya está respondiendo a tus clientes.",
   },
   {
-    q: "¿Qué pasa si el cliente hace una pregunta que el bot no sabe responder?",
-    a: "El bot reconoce cuándo no tiene información suficiente y transfiere la conversación a un integrante de tu equipo, sin que el cliente pierda el hilo de lo que había hablado.",
+    q: "¿Qué pasa si el cliente pregunta algo que el bot no sabe responder?",
+    a: "El bot se da cuenta cuando no puede resolver algo y te pasa la conversación directamente a ti o a tu equipo, con todo el historial de lo que hablaron. El cliente nunca queda sin respuesta.",
   },
   {
-    q: "¿Puedo revisar las conversaciones que tiene el bot con mis clientes?",
-    a: "Sí. Desde el panel de administración puedes ver el historial de todas las conversaciones, cotizaciones y reservas.",
+    q: "¿Puedo ver lo que conversa el bot con mis clientes?",
+    a: "Sí, tienes un panel donde ves todas las conversaciones, las citas agendadas y los clientes que escribieron. Desde el computador o el teléfono.",
   },
   {
-    q: "¿El bot funciona solo en WhatsApp?",
-    a: "WhatsApp es el canal principal. También puedes integrarlo en tu sitio web como chat en vivo. Otros canales (Instagram, Facebook Messenger) están en el roadmap.",
+    q: "¿El primer mes realmente es gratis?",
+    a: "Sí, completamente gratis. No te pedimos tarjeta de crédito para empezar. Tienes un mes completo para probarlo con tus clientes reales y ver si te sirve. Si no quedas conforme, no pagas nada.",
   },
   {
-    q: "¿Qué necesito para empezar?",
-    a: "Un número de WhatsApp Business, tu Google Calendar de trabajo y 30 minutos para contarnos cómo opera tu negocio. El resto lo hacemos nosotros.",
+    q: "¿Puedo cancelar cuando quiera?",
+    a: "Sí, sin letra chica ni contratos de permanencia. Si en algún momento decides que no lo necesitas, nos avisas y listo.",
   },
 ];
 
@@ -126,15 +126,15 @@ export default function Home() {
         {/* Hero */}
         <section className="mx-auto w-full max-w-5xl px-6 py-20 text-center sm:py-28">
           <p className="mb-4 text-sm font-medium uppercase tracking-wide text-emerald-600">
-            Chatbot de IA para pymes
+            Chatbot de IA para pymes de servicios
           </p>
           <h1 className="mx-auto max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Agenda citas por WhatsApp mientras tú atiendes tu negocio
+            Tu WhatsApp agenda citas solo, las 24 horas
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-600">
-            Closer AI responde, cotiza y agenda automáticamente en tu
-            WhatsApp, 24 horas al día. Tu pyme nunca más pierde un cliente por
-            no contestar a tiempo.
+            Para barberías, salones de belleza, talleres y cualquier negocio
+            que trabaje con horas. El bot responde, agenda y recuerda las
+            citas por ti — sin que tengas que estar pendiente del teléfono.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
@@ -156,11 +156,11 @@ export default function Home() {
         <section className="border-t border-zinc-100 bg-zinc-50 py-20">
           <div className="mx-auto max-w-5xl px-6">
             <h2 className="text-center text-3xl font-semibold tracking-tight">
-              Todo lo que tu pyme ya no tiene que hacer a mano
+              Lo que cambia en tu negocio desde el día uno
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-center text-zinc-600">
-              Diseñado para negocios donde cada conversación de WhatsApp es
-              una venta potencial.
+              Diseñado para negocios de servicios donde cada mensaje de
+              WhatsApp es una cita potencial que no puedes perder.
             </p>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {ventajas.map((v) => (
