@@ -194,6 +194,87 @@ export default function PreciosPage() {
           </div>
         </div>
 
+        {/* Tabla comparativa */}
+        <div className="mt-16">
+          <h2 className="text-center text-2xl font-semibold tracking-tight">
+            ¿Qué incluye cada plan?
+          </h2>
+          <div className="mt-6 overflow-x-auto rounded-2xl border border-zinc-200">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-zinc-200 bg-zinc-50">
+                  <th className="px-5 py-4 text-left font-medium text-zinc-600">
+                    Función
+                  </th>
+                  <th className="px-4 py-4 text-center font-medium text-zinc-600">
+                    Base
+                  </th>
+                  <th className="px-4 py-4 text-center font-medium text-zinc-600">
+                    Plus
+                  </th>
+                  <th className="bg-emerald-50 px-4 py-4 text-center font-semibold text-emerald-700">
+                    Pro
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { f: "Chatbot de IA en WhatsApp 24/7",        b: true,  p: true,  pro: true  },
+                  { f: "Agendamiento automático de citas",       b: true,  p: true,  pro: true  },
+                  { f: "Google Calendar conectado",              b: true,  p: true,  pro: true  },
+                  { f: "Recordatorios automáticos al cliente",   b: true,  p: true,  pro: true  },
+                  { f: "Datos del cliente guardados (leads)",    b: true,  p: true,  pro: true  },
+                  { f: "Derivación a un humano cuando se necesita", b: true, p: true, pro: true },
+                  { f: "Panel de administración web",            b: true,  p: true,  pro: true  },
+                  { f: "Varios trabajadores (hasta 6)",          b: false, p: true,  pro: true  },
+                  { f: "Servicios, horarios y precios por trabajador", b: false, p: true, pro: true },
+                  { f: "El bot asigna la cita al trabajador libre", b: false, p: true, pro: true },
+                  { f: "El cliente elige con quién atenderse",   b: false, p: true,  pro: true  },
+                  { f: "Chat en tu sitio web",                   b: false, p: true,  pro: true  },
+                  { f: "Trabajadores ilimitados",                b: false, p: false, pro: true  },
+                  { f: "Link de reserva para redes sociales",    b: false, p: false, pro: true  },
+                  { f: "El cliente reserva desde WhatsApp, web o Instagram", b: false, p: false, pro: true },
+                  { f: "Agenda unificada para todos los canales", b: false, p: false, pro: true },
+                  { f: "Pagos online al momento de reservar",    b: false, p: false, pro: "pronto" },
+                  { f: "Soporte",                                b: "WhatsApp", p: "Prioritario", pro: "24/7" },
+                ].map((row, i) => (
+                  <tr
+                    key={row.f}
+                    className={i % 2 === 0 ? "border-b border-zinc-100" : "border-b border-zinc-100 bg-zinc-50/50"}
+                  >
+                    <td className="px-5 py-3 font-medium text-zinc-700">
+                      {row.f}
+                    </td>
+                    {([row.b, row.p, row.pro] as (boolean | string)[]).map(
+                      (val, j) => (
+                        <td
+                          key={j}
+                          className={`px-4 py-3 text-center${j === 2 ? " bg-emerald-50/40" : ""}`}
+                        >
+                          {val === true && (
+                            <span className="text-base text-emerald-600">✓</span>
+                          )}
+                          {val === false && (
+                            <span className="text-base text-zinc-300">✕</span>
+                          )}
+                          {val === "pronto" && (
+                            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
+                              próximamente
+                            </span>
+                          )}
+                          {typeof val === "string" && val !== "pronto" && (
+                            <span className="text-xs text-zinc-600">{val}</span>
+                          )}
+                        </td>
+                      ),
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <p className="mt-8 text-center text-sm text-zinc-400">
           ¿Tienes dudas sobre qué plan elegir?{" "}
           <Link href="/contacto" className="text-emerald-700 hover:underline">
