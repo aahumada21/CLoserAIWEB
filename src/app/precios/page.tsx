@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 const planes = [
   {
     nombre: "Base",
+    precio: "$30.000",
     descripcion:
       "Todo lo que un negocio necesita para empezar a agendar citas por WhatsApp sin tocar el teléfono.",
     tag: null,
@@ -27,6 +28,7 @@ const planes = [
   },
   {
     nombre: "Pro",
+    precio: "$60.000",
     descripcion:
       "Para negocios con más de un operador, más de una línea o que quieren cotizar servicios automáticamente.",
     tag: "Más popular",
@@ -45,6 +47,7 @@ const planes = [
   },
   {
     nombre: "Empresa",
+    precio: "A convenir",
     descripcion:
       "Para cadenas, franquicias o negocios con múltiples sucursales o necesidades específicas.",
     tag: null,
@@ -118,9 +121,14 @@ export default function PreciosPage() {
               <h2 className="text-xl font-semibold">{plan.nombre}</h2>
               <p className="mt-1 text-sm text-zinc-500">{plan.descripcion}</p>
 
-              <p className="mt-4 text-sm font-medium text-zinc-400">
-                Precio a convenir
-              </p>
+              <div className="mt-4">
+                <span className="text-2xl font-semibold text-zinc-900">
+                  {plan.precio}
+                </span>
+                {plan.precio !== "A convenir" && (
+                  <span className="ml-1 text-sm text-zinc-400">/mes</span>
+                )}
+              </div>
 
               <ul className="mt-4 flex flex-1 flex-col gap-2">
                 {plan.incluye.map((item) => (
