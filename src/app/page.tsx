@@ -242,6 +242,9 @@ export default function Home() {
               Cuéntanos de tu pyme y en menos de 72 horas tienes el chatbot
               funcionando con tus servicios y precios reales.
             </p>
+            <p className="mt-2 text-sm text-emerald-400">
+              🎁 Primer mes gratis en todos los planes. Sin tarjeta de crédito.
+            </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="/contacto"

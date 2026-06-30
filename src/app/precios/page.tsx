@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const planes = [
   {
     nombre: "Base",
-    precio: "$39.000",
+    precio: "$29.000",
     descripcion:
       "Para empezar a agendar citas por WhatsApp sin tocar el teléfono.",
     tag: null,
@@ -100,6 +100,14 @@ export default function PreciosPage() {
           </p>
         </div>
 
+        <div className="mx-auto mt-8 flex max-w-xl items-center justify-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4">
+          <span className="text-xl">🎁</span>
+          <p className="text-sm font-medium text-emerald-800">
+            <strong>Primer mes gratis</strong> en todos los planes — sin
+            tarjeta de crédito, sin compromiso. Cancela cuando quieras.
+          </p>
+        </div>
+
         <div className="mt-12 grid gap-6 sm:grid-cols-3">
           {planes.map((plan) => (
             <div
@@ -154,7 +162,7 @@ export default function PreciosPage() {
                     : "mt-6 rounded-full border border-zinc-200 px-4 py-3 text-center text-sm font-medium text-zinc-700 hover:bg-zinc-50"
                 }
               >
-                {plan.cta}
+                {plan.cta} — 1er mes gratis
               </Link>
             </div>
           ))}
