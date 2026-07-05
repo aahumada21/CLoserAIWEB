@@ -57,13 +57,17 @@ export default function GoogleCalendarConnect({
     try {
       const res = await fetch(`/api/calendar-health?agentId=${agentId}`);
       const data = await res.json();
-      if (data.error === "not_configured") {
-        setHealth("not_configured");
+      if (data.ok === true) {
+        setHealth("ok");
+      } else if (data.ok === false) {
+        // Solo rojo cuando n8n confirma explícitamente que el token es inválido
+        setHealth("error");
       } else {
-        setHealth(data.ok ? "ok" : "error");
+        // ok === null: n8n no disponible o webhook no existe aún
+        setHealth("not_configured");
       }
     } catch {
-      setHealth("error");
+      setHealth("not_configured");
     }
   }
 

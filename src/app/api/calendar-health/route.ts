@@ -47,12 +47,14 @@ export async function GET(req: NextRequest) {
     });
 
     if (!res.ok) {
-      return NextResponse.json({ ok: false, error: "n8n_error" });
+      // n8n no disponible o webhook no existe aún — no podemos confirmar el estado
+      return NextResponse.json({ ok: null, error: "n8n_unavailable" });
     }
 
     const data = await res.json();
     return NextResponse.json(data);
   } catch {
-    return NextResponse.json({ ok: false, error: "timeout" });
+    // Timeout u otro error de red — estado desconocido
+    return NextResponse.json({ ok: null, error: "timeout" });
   }
 }
