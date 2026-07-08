@@ -19,9 +19,12 @@ type Service = {
   duration_minutes: number;
 };
 
+type PaymentMode = "both" | "prepago_only" | "postpago_only" | "prepago_required";
+
 export type BusinessConfig = {
   business_name?: string;
   calendar_id?: string;
+  payment_mode?: PaymentMode;
   coverage?: { districts: string[] };
   schedule?: ScheduleBlock[];
   booking_policy?: { max_slots_default?: number };
@@ -73,6 +76,7 @@ function withDefaults(config: BusinessConfig | null): BusinessConfig {
   return {
     business_name: config?.business_name ?? "",
     calendar_id: config?.calendar_id ?? "",
+    payment_mode: config?.payment_mode ?? "both",
     coverage: { districts: config?.coverage?.districts ?? [] },
     schedule: config?.schedule ?? [],
     booking_policy: {
@@ -260,6 +264,66 @@ export default function BusinessConfigForm({
               className="mt-1 w-32 rounded-lg border border-zinc-200 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none"
             />
           </div>
+        </div>
+      </section>
+
+      {/* Pagos */}
+      <section>
+        <h2 className="text-lg font-semibold tracking-tight">Modo de pago</h2>
+        <p className="mt-1 text-sm text-zinc-500">
+          Define cómo el bot maneja los pagos al momento de agendar.
+        </p>
+        <div className="mt-4 flex flex-col gap-3">
+          {(
+            [
+              {
+                value: "both",
+                label: "Preguntar al cliente",
+                description:
+                  "El bot pregunta si prefiere pagar ahora con link Flow o al terminar el servicio.",
+              },
+              {
+                value: "prepago_only",
+                label: "Solo prepago (link Flow)",
+                description:
+                  "Todos los clientes pagan con link Flow antes del servicio. No se ofrece pago al terminar.",
+              },
+              {
+                value: "postpago_only",
+                label: "Solo postpago (al terminar)",
+                description:
+                  "Todos los clientes pagan en efectivo o transferencia al finalizar el servicio.",
+              },
+              {
+                value: "prepago_required",
+                label: "Prepago obligatorio (reserva condicional)",
+                description:
+                  "El turno se reserva pero el evento en Google Calendar se confirma recién cuando el cliente completa el pago online.",
+              },
+            ] as { value: PaymentMode; label: string; description: string }[]
+          ).map((opt) => (
+            <label
+              key={opt.value}
+              className={`flex cursor-pointer gap-3 rounded-xl border p-4 transition-colors ${
+                config.payment_mode === opt.value
+                  ? "border-emerald-500 bg-emerald-50"
+                  : "border-zinc-200 hover:bg-zinc-50"
+              }`}
+            >
+              <input
+                type="radio"
+                name="payment_mode"
+                value={opt.value}
+                checked={config.payment_mode === opt.value}
+                onChange={() => updateField("payment_mode", opt.value)}
+                className="mt-0.5 accent-emerald-600"
+              />
+              <div>
+                <p className="text-sm font-medium text-zinc-800">{opt.label}</p>
+                <p className="text-xs text-zinc-500">{opt.description}</p>
+              </div>
+            </label>
+          ))}
         </div>
       </section>
 
