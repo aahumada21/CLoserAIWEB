@@ -37,7 +37,7 @@ export default function TermsOfServicePage() {
               1. Aceptación de estas condiciones
             </h2>
             <p className="mt-2">
-              Al usar el sitio <strong>closer.aahumada.com</strong>, probar
+              Al usar el sitio <strong>vendea.cl</strong>, probar
               la demostración del chatbot, o contratar Closer AI para tu
               negocio, aceptas estas condiciones. Si no estás de acuerdo, no
               uses el servicio.

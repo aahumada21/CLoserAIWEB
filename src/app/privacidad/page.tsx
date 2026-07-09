@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
               que pequeñas y medianas empresas atiendan, coticen y agenden
               citas con sus clientes a través de WhatsApp y otros canales de
               chat. Esta política explica qué información recopilamos a
-              través de nuestro sitio web (<strong>closer.aahumada.com</strong>)
+              través de nuestro sitio web (<strong>vendea.cl</strong>)
               y de la demostración del chatbot, y cómo la usamos.
             </p>
           </section>
