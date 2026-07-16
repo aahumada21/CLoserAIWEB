@@ -43,6 +43,7 @@ export default function ToolsPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [seed, setSeed] = useState("");
   const [aspectRatio, setAspectRatio] = useState("");
+  const [guidance, setGuidance] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -68,6 +69,7 @@ export default function ToolsPage() {
     }
     if (seed.trim()) fd.append("seed", seed.trim());
     if (aspectRatio) fd.append("aspect_ratio", aspectRatio);
+    if (guidance.trim()) fd.append("guidance", guidance.trim());
 
     try {
       const res = await fetch("/api/tools/content-generate", {
@@ -94,6 +96,7 @@ export default function ToolsPage() {
     setImageFile(null);
     setSeed("");
     setAspectRatio("");
+    setGuidance("");
     setErrorMsg("");
     if (fileRef.current) fileRef.current.value = "";
   }
@@ -221,8 +224,8 @@ export default function ToolsPage() {
               </div>
             )}
 
-            {/* Opcionales: seed y aspect_ratio */}
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            {/* Opcionales: seed, aspect_ratio, guidance */}
+            <div className="mt-4 grid grid-cols-3 gap-3">
               <div>
                 <label className="block text-sm font-medium text-zinc-700">
                   Seed{" "}
@@ -255,6 +258,23 @@ export default function ToolsPage() {
                     <option key={r} value={r}>{r}</option>
                   ))}
                 </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-700">
+                  Guidance{" "}
+                  <span className="font-normal text-zinc-400">(opcional)</span>
+                </label>
+                <input
+                  type="number"
+                  min={2}
+                  max={5}
+                  step={0.1}
+                  value={guidance}
+                  onChange={(e) => setGuidance(e.target.value)}
+                  placeholder="3"
+                  className="mt-1.5 w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none"
+                />
+                <p className="mt-1 text-xs text-zinc-400">2 – 5, default 3</p>
               </div>
             </div>
 
