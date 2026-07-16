@@ -11,7 +11,7 @@ const MODES = [
     needsVariables: false,
   },
   {
-    value: "carousel_text",
+    value: "text_to_image_carousel",
     label: "Carrusel texto a imagen",
     description: "Genera múltiples slides desde el prompt",
     needsImage: false,
@@ -25,7 +25,7 @@ const MODES = [
     needsVariables: false,
   },
   {
-    value: "carousel_image",
+    value: "image_to_image_carousel",
     label: "Carrusel imagen a imagen",
     description: "Genera slides a partir de una imagen con variables",
     needsImage: true,
