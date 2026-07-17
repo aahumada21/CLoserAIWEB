@@ -107,7 +107,7 @@ export default function ToolsPage() {
     status !== "loading";
 
   return (
-    <div className="min-h-screen bg-zinc-50 px-4 py-16">
+    <div className="relative min-h-screen bg-zinc-50 px-4 py-16">
       <div className="mx-auto max-w-xl">
         <div className="mb-8">
           <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600">
@@ -294,6 +294,10 @@ export default function ToolsPage() {
           </form>
         )}
       </div>
+
+      <p className="fixed bottom-3 right-4 text-xs text-zinc-300 select-none">
+        v1.5
+      </p>
     </div>
   );
 }
