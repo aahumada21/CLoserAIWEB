@@ -38,9 +38,6 @@ export async function POST(req: NextRequest) {
   const aspectRatio = String(incoming.get("aspect_ratio") ?? "").trim();
   if (aspectRatio) out.append("aspect_ratio", aspectRatio);
 
-  const guidance = String(incoming.get("guidance") ?? "").trim();
-  if (guidance) out.append("guidance", guidance);
-
   const image = incoming.get("image");
   if (image instanceof File && image.size > 0) {
     const bytes = await image.arrayBuffer();
