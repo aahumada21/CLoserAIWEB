@@ -41,7 +41,6 @@ export default function ToolsPage() {
   const [prompt, setPrompt] = useState("");
   const [variables, setVariables] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [seed, setSeed] = useState("");
   const [aspectRatio, setAspectRatio] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -66,7 +65,6 @@ export default function ToolsPage() {
     if (currentMode.needsImage && imageFile) {
       fd.append("image", imageFile, imageFile.name);
     }
-    if (seed.trim()) fd.append("seed", seed.trim());
     if (aspectRatio) fd.append("aspect_ratio", aspectRatio);
 
     try {
@@ -92,7 +90,6 @@ export default function ToolsPage() {
     setPrompt("");
     setVariables("");
     setImageFile(null);
-    setSeed("");
     setAspectRatio("");
     setErrorMsg("");
     if (fileRef.current) fileRef.current.value = "";
@@ -221,39 +218,22 @@ export default function ToolsPage() {
               </div>
             )}
 
-            {/* Opcionales: seed, aspect_ratio */}
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-medium text-zinc-700">
-                  Seed{" "}
-                  <span className="font-normal text-zinc-400">(opcional)</span>
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  value={seed}
-                  onChange={(e) => setSeed(e.target.value)}
-                  placeholder="ej. 42"
-                  className="mt-1.5 w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none"
-                />
-                <p className="mt-1 text-xs text-zinc-400">Vacío = aleatorio</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-zinc-700">
-                  Aspect ratio{" "}
-                  <span className="font-normal text-zinc-400">(opcional)</span>
-                </label>
-                <select
-                  value={aspectRatio}
-                  onChange={(e) => setAspectRatio(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 focus:border-emerald-500 focus:outline-none"
-                >
-                  <option value="">— default —</option>
-                  {["1:1","16:9","9:16","4:3","3:4","3:2","2:3","4:5","5:4"].map((r) => (
-                    <option key={r} value={r}>{r}</option>
-                  ))}
-                </select>
-              </div>
+            {/* Opcional: aspect_ratio */}
+            <div className="mt-4 max-w-[160px]">
+              <label className="block text-sm font-medium text-zinc-700">
+                Aspect ratio{" "}
+                <span className="font-normal text-zinc-400">(opcional)</span>
+              </label>
+              <select
+                value={aspectRatio}
+                onChange={(e) => setAspectRatio(e.target.value)}
+                className="mt-1.5 w-full rounded-xl border border-zinc-200 px-3 py-2.5 text-sm text-zinc-800 focus:border-emerald-500 focus:outline-none"
+              >
+                <option value="">— default —</option>
+                {["1:1","16:9","9:16","4:3","3:4","3:2","2:3","4:5","5:4"].map((r) => (
+                  <option key={r} value={r}>{r}</option>
+                ))}
+              </select>
             </div>
 
             {status === "error" && (
@@ -274,7 +254,7 @@ export default function ToolsPage() {
       </div>
 
       <p className="fixed bottom-3 right-4 text-xs text-zinc-300 select-none">
-        v1.6
+        v1.7
       </p>
     </div>
   );
