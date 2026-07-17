@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
@@ -108,13 +109,16 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen flex-1 items-center justify-center bg-zinc-50 px-6">
       <div className="w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm">
-        <h1 className="text-xl font-semibold tracking-tight">
-          Panel de Closer AI
+        <div className="flex justify-center">
+          <Image src="/logo.png" alt="Vendea" width={56} height={56} priority />
+        </div>
+        <h1 className="mt-4 text-center text-xl font-semibold tracking-tight">
+          Vendea
         </h1>
 
         {step === "credentials" ? (
           <>
-            <p className="mt-1 text-sm text-zinc-600">
+            <p className="mt-1 text-center text-sm text-zinc-600">
               Inicia sesión para configurar tu agente.
             </p>
             <form
@@ -167,7 +171,7 @@ export default function LoginPage() {
           </>
         ) : (
           <>
-            <p className="mt-1 text-sm text-zinc-600">
+            <p className="mt-1 text-center text-sm text-zinc-600">
               Ingresa el código de 6 dígitos de tu app de autenticación
               (Google Authenticator, Authy, etc.).
             </p>
