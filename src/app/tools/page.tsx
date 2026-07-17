@@ -95,6 +95,12 @@ export default function ToolsPage() {
     if (fileRef.current) fileRef.current.value = "";
   }
 
+  const isCarousel = mode === "text_to_image_carousel" || mode === "image_to_image_carousel";
+  const slideSource = currentMode.needsVariables ? variables : prompt;
+  const slideCount = isCarousel && slideSource.trim()
+    ? slideSource.split(",").filter((s) => s.trim().length > 0).length
+    : null;
+
   const canSubmit =
     !!prompt.trim() &&
     (!currentMode.needsImage || !!imageFile) &&
@@ -122,8 +128,10 @@ export default function ToolsPage() {
               ¡Enviado! Revisá tu Telegram en 1–2 min.
             </p>
             <p className="mt-1 text-sm text-emerald-600">
-              Modo:{" "}
-              <span className="font-medium">{currentMode.label}</span>
+              Modo: <span className="font-medium">{currentMode.label}</span>
+              {slideCount !== null && (
+                <> · <span className="font-medium">{slideCount} {slideCount === 1 ? "imagen" : "imágenes"}</span></>
+              )}
             </p>
             <button
               onClick={reset}
@@ -165,9 +173,16 @@ export default function ToolsPage() {
 
             {/* Prompt */}
             <div className="mt-5">
-              <label className="block text-sm font-medium text-zinc-700">
-                Prompt / Brief
-              </label>
+              <div className="flex items-center gap-2">
+                <label className="block text-sm font-medium text-zinc-700">
+                  Prompt / Brief
+                </label>
+                {mode === "text_to_image_carousel" && slideCount !== null && (
+                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+                    {slideCount} {slideCount === 1 ? "imagen" : "imágenes"}
+                  </span>
+                )}
+              </div>
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
@@ -202,12 +217,19 @@ export default function ToolsPage() {
             {/* Variables — solo carrusel imagen a imagen */}
             {currentMode.needsVariables && (
               <div className="mt-4">
-                <label className="block text-sm font-medium text-zinc-700">
-                  Variables{" "}
-                  <span className="text-zinc-400 font-normal">
-                    (separadas por coma)
-                  </span>
-                </label>
+                <div className="flex items-center gap-2">
+                  <label className="block text-sm font-medium text-zinc-700">
+                    Variables{" "}
+                    <span className="text-zinc-400 font-normal">
+                      (separadas por coma)
+                    </span>
+                  </label>
+                  {slideCount !== null && (
+                    <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+                      {slideCount} {slideCount === 1 ? "imagen" : "imágenes"}
+                    </span>
+                  )}
+                </div>
                 <input
                   type="text"
                   value={variables}
@@ -247,14 +269,18 @@ export default function ToolsPage() {
               disabled={!canSubmit}
               className="mt-6 w-full rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {status === "loading" ? "Enviando…" : "Generar"}
+              {status === "loading"
+                ? "Enviando…"
+                : slideCount !== null
+                ? `Generar ${slideCount} ${slideCount === 1 ? "imagen" : "imágenes"}`
+                : "Generar"}
             </button>
           </form>
         )}
       </div>
 
       <p className="fixed bottom-3 right-4 text-xs text-zinc-300 select-none">
-        v1.7
+        v1.8
       </p>
     </div>
   );
