@@ -40,6 +40,7 @@ export default function ToolsPage() {
   const [mode, setMode] = useState<ModeValue>("text_to_image");
   const [prompt, setPrompt] = useState("");
   const [variables, setVariables] = useState("");
+  const [slidesJson, setSlidesJson] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [aspectRatio, setAspectRatio] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -48,10 +49,26 @@ export default function ToolsPage() {
 
   const currentMode = MODES.find((m) => m.value === mode)!;
 
+  let parsedSlides: unknown[] | null = null;
+  let slidesError = "";
+  if (currentMode.needsVariables && slidesJson.trim()) {
+    try {
+      const parsed = JSON.parse(slidesJson);
+      if (!Array.isArray(parsed) || parsed.some((s) => typeof s !== "object" || s === null)) {
+        slidesError = "Debe ser un array JSON de objetos.";
+      } else {
+        parsedSlides = parsed;
+      }
+    } catch {
+      slidesError = "JSON inválido.";
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!prompt.trim()) return;
     if (currentMode.needsImage && !imageFile) return;
+    if (slidesError) return;
 
     setStatus("loading");
     setErrorMsg("");
@@ -61,6 +78,9 @@ export default function ToolsPage() {
     fd.append("prompt", prompt.trim());
     if (currentMode.needsVariables && variables.trim()) {
       fd.append("variables", variables.trim());
+    }
+    if (currentMode.needsVariables && parsedSlides) {
+      fd.append("slides", JSON.stringify(parsedSlides));
     }
     if (currentMode.needsImage && imageFile) {
       fd.append("image", imageFile, imageFile.name);
@@ -89,6 +109,7 @@ export default function ToolsPage() {
     setStatus("idle");
     setPrompt("");
     setVariables("");
+    setSlidesJson("");
     setImageFile(null);
     setAspectRatio("");
     setErrorMsg("");
@@ -97,13 +118,16 @@ export default function ToolsPage() {
 
   const isCarousel = mode === "text_to_image_carousel" || mode === "image_to_image_carousel";
   const slideSource = currentMode.needsVariables ? variables : prompt;
-  const slideCount = isCarousel && slideSource.trim()
+  const slideCount = parsedSlides
+    ? parsedSlides.length
+    : isCarousel && slideSource.trim()
     ? slideSource.split(",").filter((s) => s.trim().length > 0).length
     : null;
 
   const canSubmit =
     !!prompt.trim() &&
     (!currentMode.needsImage || !!imageFile) &&
+    !slidesError &&
     status !== "loading";
 
   return (
@@ -198,12 +222,12 @@ export default function ToolsPage() {
               <div className="mt-4">
                 <label className="block text-sm font-medium text-zinc-700">
                   Imagen de referencia{" "}
-                  <span className="text-zinc-400 font-normal">(PNG)</span>
+                  <span className="text-zinc-400 font-normal">(PNG o JPG)</span>
                 </label>
                 <input
                   ref={fileRef}
                   type="file"
-                  accept="image/png"
+                  accept="image/png,image/jpeg"
                   required
                   onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
                   className="mt-1.5 block w-full cursor-pointer rounded-xl border border-zinc-200 px-3 py-2 text-sm text-zinc-600 file:mr-3 file:rounded-full file:border-0 file:bg-zinc-100 file:px-3 file:py-1 file:text-xs file:font-medium file:text-zinc-700 hover:file:bg-zinc-200"
@@ -237,6 +261,33 @@ export default function ToolsPage() {
                   placeholder="precio, nombre, servicio, ..."
                   className="mt-1.5 w-full rounded-xl border border-zinc-200 px-4 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none"
                 />
+              </div>
+            )}
+
+            {/* Slides — JSON con variables por slide, alternativa/complemento a Variables */}
+            {currentMode.needsVariables && (
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-zinc-700">
+                  Slides{" "}
+                  <span className="text-zinc-400 font-normal">
+                    (opcional — array JSON, una variable por clave; usá {"{{CLAVE}}"} en el prompt)
+                  </span>
+                </label>
+                <textarea
+                  value={slidesJson}
+                  onChange={(e) => setSlidesJson(e.target.value)}
+                  rows={5}
+                  placeholder={'[\n  {"TITULO": "Responde al instante", "NUMERO_SLIDE": "2/5"}\n]'}
+                  spellCheck={false}
+                  className={`mt-1.5 w-full resize-y rounded-xl border px-4 py-3 font-mono text-xs leading-relaxed text-zinc-800 placeholder:text-zinc-400 focus:outline-none ${
+                    slidesError
+                      ? "border-red-300 focus:border-red-500"
+                      : "border-zinc-200 focus:border-emerald-500"
+                  }`}
+                />
+                {slidesError && (
+                  <p className="mt-1 text-xs text-red-500">{slidesError}</p>
+                )}
               </div>
             )}
 
@@ -280,7 +331,7 @@ export default function ToolsPage() {
       </div>
 
       <p className="fixed bottom-3 right-4 text-xs text-zinc-300 select-none">
-        v1.8
+        v1.9
       </p>
     </div>
   );

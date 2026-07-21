@@ -32,6 +32,9 @@ export async function POST(req: NextRequest) {
   const variables = String(incoming.get("variables") ?? "").trim();
   if (variables) out.append("variables", variables);
 
+  const slides = String(incoming.get("slides") ?? "").trim();
+  if (slides) out.append("slides", slides);
+
   const aspectRatio = String(incoming.get("aspect_ratio") ?? "").trim();
   if (aspectRatio) out.append("aspect_ratio", aspectRatio);
 
